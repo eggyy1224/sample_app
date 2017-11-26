@@ -16,3 +16,6 @@ module SampleApp
     # -- all .rb files in that directory are automatically loaded.
   end
 end
+
+require 'carrierwave'
+require 'carrierwave/orm/activerecord'
