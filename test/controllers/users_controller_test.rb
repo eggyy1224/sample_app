@@ -70,4 +70,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
   end
 
+  test 'should redirect following when not log in' do
+    get following_user_path(@user)#這個user關注的人的頁面
+    assert_redirected_to login_url
+  end
+
+  test 'should redirect followers when not log in' do
+    get followers_user_path(@user)#關注這個user的人的頁面
+    assert_redirected_to login_url
+  end
+
 end

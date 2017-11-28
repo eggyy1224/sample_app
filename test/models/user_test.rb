@@ -86,6 +86,37 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test "should follow and unfollow user" do
+    michael = users(:michael)
+    archer = users(:archer)
+    assert_not michael.following?(archer)
+    michael.follow(archer)
+    assert michael.following?(archer)
+    assert archer.followers.include?(michael)
+    michael.unfollow(archer)
+    assert_not michael.following?(archer)
+  end
+
+  test 'feed should have right posts' do
+    michael = users(:michael)
+    archer = users(:archer)
+    lana = users(:lana)
+    #應該要顯示關注用戶發佈的文章
+    lana.microposts.each do |post_following|
+      assert michael.feed.include?(post_following)
+    end
+
+    #應該要顯示自己發表的文章
+    michael.microposts.each do |post_self|
+      assert michael.feed.include?(post_self)
+    end
+
+    #不會顯示未關注用戶的文章
+    archer.microposts.each do |post_unfollowed|
+      assert_not michael.feed.include?(post_unfollowed)
+    end
+  end
+
 
 
 end
